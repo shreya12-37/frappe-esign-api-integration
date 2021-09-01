@@ -15,9 +15,9 @@ payload = ({
   },
   "parties": [
     {
-      "firstName": "Anushka",
-      "lastName": "Trivedi",
-      "emailId": "anushka@onehash.ai",
+      "firstName": "Vinit",
+      "lastName": "Singh",
+      "emailId": "vinit@onehash.ai",
       "permission": "FILL_FIELDS_AND_SIGN",
       "sequence": 1
     }
@@ -38,3 +38,16 @@ headers = {
 
 response = frappe.make_post_request(url=url, headers=headers, data=json.dumps(payload))
 frappe.response['message'] = response
+frappe.log_error(response.get('folder').get('folderId'))
+value = response.get('folder').get('folderId')
+request_data = frappe.form_dict
+email = request_data.email
+field_list = frappe.get_list("Supplier",
+filters ={
+    "email_id": email
+})
+for d in field_list:
+    frappe.log_error(d.name)
+    frappe.db.set_value('Supplier', d.name, {
+        'folderid': value
+    })
