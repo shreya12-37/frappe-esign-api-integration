@@ -1,18 +1,23 @@
 url = "https://esigngenie.com/esign/api/templates/createFolder"
+# frappe.response["args"]=(frappe.form_dict)
+# company = frappe.response["args"]["company"]
+request_data = frappe.form_dict
+company = request_data.company
 
+frappe.log_error(company)
 payload = ({
   "folderName": "Test Document",
   "templateIds": [
     201963
   ],
   "fields": {
-    "company": "OneHash"
+    "company": company
   },
   "parties": [
     {
-      "firstName": "Shreya",
-      "lastName": "Maheshwari",
-      "emailId": "shreyamaheshwari3712@gmail.com",
+      "firstName": "Anushka",
+      "lastName": "Trivedi",
+      "emailId": "anushka@onehash.ai",
       "permission": "FILL_FIELDS_AND_SIGN",
       "sequence": 1
     }
@@ -33,8 +38,3 @@ headers = {
 
 response = frappe.make_post_request(url=url, headers=headers, data=json.dumps(payload))
 frappe.response['message'] = response
-# frappe.log_error(response)
-
-# response = 'Sucess'
-
-# frappe.log_error(response)
