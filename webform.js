@@ -5,19 +5,21 @@ frappe.web_form.after_save = () => {
     frappe.call({
             method: "esign",
             args: {
-                company : frappe.web_form.get_value('supplier_name')
+                company : frappe.web_form.get_value('supplier_name'),
+                email : frappe.web_form.get_value('email_id')
             },
             type: "POST",
             async: false,
             callback: function(res){
                 console.log("api is running",res);
                 console.log("Ye aaya URL",res.message.embeddedSigningSessions[0].embeddedSessionURL);
+                var url = res.message.embeddedSigningSessions[0].embeddedSessionURL;
                 console.log("ye hai folder ID",res.message.folder.folderId);
-                var folder_id = res.message.folder.folderId;
-                
+                window.location.replace(url); 
             },
             //error: function(e){
             //    console.log("some error",e)
             //}
         })
 }
+
